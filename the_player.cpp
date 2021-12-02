@@ -64,7 +64,7 @@ void ThePlayer::jumpTo (TheButtonInfo* button) {
 
 void ThePlayer::updatePosition(int position){
     //qDebug() << "Updating Position in player" << position;
-    setPosition(position*100);
+    setPosition(position*10);
     play();
 }
 

@@ -1,5 +1,6 @@
 #include "play_pause.h"
 #include <QMediaPlayer>
+#include <QSize>
 
 void PlayPause::buttonPressed(){
     if(currentlyPlaying){
@@ -15,6 +16,7 @@ void PlayPause::receivePlayState(QMediaPlayer::State state){
     qDebug() << "state " <<state;
     if(state == QMediaPlayer::PausedState){
         setIcon(QIcon(":/play.png"));
+
     }
     else {
         setIcon(QIcon(":/pause.png"));

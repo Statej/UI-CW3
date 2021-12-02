@@ -31,7 +31,7 @@
 #include "volume_slider.h"
 #include <QSlider>
 #include <QDebug>
-
+#include <QScrollArea>
 // read in videos and thumbnails to this directory
 std::vector<TheButtonInfo> getInfoIn (std::string loc) {
 
@@ -79,10 +79,16 @@ int main(int argc, char *argv[]) {
 
     // create the Qt Application
     QApplication app(argc, argv);
+    // Load an application style
+    QFile styleFile( ":/style.qss" );
+    styleFile.open( QFile::ReadOnly );
+
+    // Apply the loaded stylesheet
+    QString style( styleFile.readAll() );
+    app.setStyleSheet( style );
 
     // collect all the videos in the folder
     std::vector<TheButtonInfo> videos;
-
     if (argc == 2)
         videos = getInfoIn( std::string(argv[1]) );
 
@@ -123,12 +129,17 @@ int main(int argc, char *argv[]) {
 
 
     // create the four buttons
-    for ( int i = 0; i < 4; i++ ) {
+    for ( int i = 0; i < (int)videos.size(); i++ ) {
         TheButton *button = new TheButton(buttonWidget);
         button->connect(button, SIGNAL(jumpTo(TheButtonInfo* )), player, SLOT (jumpTo(TheButtonInfo*))); // when clicked, tell the player to play.
         buttons.push_back(button);
+        button->setMinimumWidth(200);
+        button->setMinimumHeight(150);
+        button->setMaximumWidth(200);
+        button->setMaximumHeight(150);
         layout->addWidget(button);
         button->init(&videos.at(i));
+
     }
 
     // tell the player what buttons and videos are available
@@ -184,7 +195,13 @@ int main(int argc, char *argv[]) {
     // add the video and the buttons to the top level widget
     top->addWidget(videoWidget);
     top->addLayout(controlsLayout);
-    top->addWidget(buttonWidget);
+    //top->addWidget(buttonWidget);
+    QScrollArea* scrollArea = new QScrollArea();
+    scrollArea->setMinimumHeight(200);
+    top->addWidget(scrollArea);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setWidget(buttonWidget);
+    //scrollArea->setGeometry(-1,-1,0,0);
 
    // qDebug() << player->metaData("Duration");
     //qDebug() << videoWidget->mediaObject()->metaData("Duration") << " found \n";
