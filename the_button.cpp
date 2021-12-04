@@ -7,6 +7,7 @@
 
 void TheButton::init(TheButtonInfo* i) {
     setIcon( *(i->icon) );
+    setIconSize(QSize(1000,1000));
     info =  i;
 }
 

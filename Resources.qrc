@@ -4,5 +4,6 @@
         <file>play.png</file>
         <file>volume_on.png</file>
         <file>volume_off.png</file>
+        <file>style.qss</file>
     </qresource>
 </RCC>

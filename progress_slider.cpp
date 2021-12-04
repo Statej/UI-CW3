@@ -6,10 +6,10 @@ void ProgressSlider::progressChanged(){
 
 void ProgressSlider::assignDuration(int dur){
     duration = dur;
-    setRange(0, duration/100);
+    setRange(0, duration/10);
 }
 void ProgressSlider::receivePosition(int pos){
-    setSliderPosition(pos/100);
+    setSliderPosition(pos/10);
 }
 
 void ProgressSlider::sliderBeenPressed(){

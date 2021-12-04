@@ -9,6 +9,7 @@ class VolumeButton : public QPushButton
 public:
     bool muted = false;
     VolumeButton() : QPushButton(0){
+        setIconSize(QSize(35,35));
         connect(this, SIGNAL(clicked()), this, SLOT(buttonPressed()));
     }
 

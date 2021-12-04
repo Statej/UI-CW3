@@ -10,6 +10,7 @@ class PlayPause : public QPushButton
 public:
     bool currentlyPlaying = true;
     PlayPause() : QPushButton(0){
+        setIconSize(QSize(35,35));
         connect(this, SIGNAL(clicked()), this, SLOT(buttonPressed()));
     }
 
