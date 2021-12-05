@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QWidget" name="widget" native="true">
+  <widget class="QWidget" name="videoPlayer" native="true">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -468,7 +468,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="playButton">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -481,7 +481,7 @@
     <string>Play</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="volumeButton">
    <property name="geometry">
     <rect>
      <x>590</x>
@@ -494,7 +494,7 @@
     <string>Volume</string>
    </property>
   </widget>
-  <widget class="QSlider" name="horizontalSlider">
+  <widget class="QSlider" name="videoProgress">
    <property name="geometry">
     <rect>
      <x>80</x>
@@ -507,7 +507,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QSlider" name="horizontalSlider_2">
+  <widget class="QSlider" name="volumeSlider">
    <property name="geometry">
     <rect>
      <x>650</x>
