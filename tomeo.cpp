@@ -133,9 +133,9 @@ int main(int argc, char *argv[]) {
         TheButton *button = new TheButton(buttonWidget);
         button->connect(button, SIGNAL(jumpTo(TheButtonInfo* )), player, SLOT (jumpTo(TheButtonInfo*))); // when clicked, tell the player to play.
         buttons.push_back(button);
-        button->setMinimumWidth(200);
+        button->setMinimumWidth(150);
         button->setMinimumHeight(150);
-        button->setMaximumWidth(200);
+        button->setMaximumWidth(150);
         button->setMaximumHeight(150);
         layout->addWidget(button);
         button->init(&videos.at(i));

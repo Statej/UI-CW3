@@ -1,7 +1,16 @@
 QWidget{
-background: #2e2e2e;
+ background-color: #2e2e2e;
 }
-QPushButton{
+TheButton{
+border-color: rgb(66, 69, 183);
+ border-width: 3px;
+ border-style: solid;
+ border-radius: 40px;
+ margin:30px;
+ padding:5px;
+
+}
+PlayPause{
     background-color: rgb(235,97,0);
     border-style: outset;
     border-width: 2px;
@@ -10,6 +19,16 @@ QPushButton{
     font: bold 14px;
     padding: 6px;
 }
+VolumeButton{
+    background-color: rgb(235,97,0);
+    border-style: outset;
+    border-width: 2px;
+    border-radius: 10px;
+    border-color: beige;
+    font: bold 14px;
+    padding: 6px;
+}
+
 
 QSlider::groove:horizontal {
 
