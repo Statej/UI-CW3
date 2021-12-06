@@ -59,7 +59,13 @@ void ThePlayer::jumpTo (TheButtonInfo* button) {
     setMedia( * button -> url);
     //    QVariant duration = metaData("Duration");
     //    qDebug() << duration;
-    play();
+    if(initialising){
+        initialising = false;
+    }
+    else{
+        play();
+    }
+
 }
 
 void ThePlayer::updatePosition(int position){
@@ -82,7 +88,7 @@ void ThePlayer::receiveVolumeButtonPressed(){
 
 }
 
-void ThePlayer::receivePlayButtonPressed(bool currentlyPlaying){
+void ThePlayer::receivePlayButtonPressed(){
     if(state() == PausedState){
         play();
     }
@@ -93,6 +99,6 @@ void ThePlayer::receivePlayButtonPressed(bool currentlyPlaying){
 
 void ThePlayer:: receiveVolumeVal(int volume){
     //float convertedVolume = log(volume)/log(100);
-//    qDebug() <<"OVKUME"<< convertedVolume * 100;
+    //    qDebug() <<"OVKUME"<< convertedVolume * 100;
     setVolume(volume);
 }

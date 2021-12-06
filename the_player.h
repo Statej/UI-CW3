@@ -42,6 +42,9 @@ public:
     // all buttons have been setup, store pointers here
     void setContent(std::vector<TheButton*>* b, std::vector<TheButtonInfo>* i);
 
+private:
+    bool initialising = true;
+
 private slots:
 
     // change the image and video for one button every one second
@@ -62,7 +65,7 @@ public slots:
     void updatePosition(int position);
 
     void receiveSliderPressed();
-    void receivePlayButtonPressed(bool);
+    void receivePlayButtonPressed();
     void receiveVolumeButtonPressed();
     void receiveVolumeVal(int);
 signals:

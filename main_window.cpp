@@ -27,13 +27,16 @@
 #include "QRadioButton"
 
 void MainWindow::changeLayout(){
-    qDebug() << "Here";
-
-
-    parentWidget->widget(1)->hide();
-    parentWidget->widget(0)->show();
-    //setLayout(mainWindowLayout);
-
+    if(showingMainWindow){
+        parentWidget->widget(0)->hide();
+        parentWidget->widget(1)->show();
+        showingMainWindow = false;
+    }
+    else {
+        parentWidget->widget(1)->hide();
+        parentWidget->widget(0)->show();
+        showingMainWindow = true;
+    }
 }
 
 
@@ -45,6 +48,7 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
     QPushButton *backButton = new QPushButton();
     backButton->setMaximumWidth(50);
     backButton->setMaximumHeight(50);
+    backButton->connect(backButton, SIGNAL(released()), this, SLOT(changeLayout()));
     buttonOverlap->addWidget(videoWidget, 0 , 0 );
     buttonOverlap->addWidget(backButton, 0 , 0, Qt::AlignLeft | Qt::AlignTop);
     videoWithBut->setLayout(buttonOverlap);
@@ -161,7 +165,8 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
     volumeSlider->connect(volumeSlider, SIGNAL(sendVolumeValue(int)), player, SLOT(receiveVolumeVal(int)));
     // PLAY PAUSE BUTTON
     playButton->setIcon(QIcon(":/pause.png"));
-    playButton->connect(playButton, SIGNAL(sendButtonPressed(bool)), player, SLOT(receivePlayButtonPressed(bool)));
+    playButton->connect(playButton, SIGNAL(sendButtonPressed(bool)), player, SLOT(receivePlayButtonPressed()));
+    backButton->connect(backButton, SIGNAL(released()), player, SLOT(receivePlayButtonPressed()));
 
     // VOLUME BUTTON
     volumeButton->setIcon(QIcon(":/volume_on"));

@@ -13,6 +13,7 @@ public:
     MainWindow(std::vector<TheButtonInfo> &videos);
 
 private:
+    bool showingMainWindow = false;
     QHBoxLayout *mainWindowLayout;
     QHBoxLayout *initialWindowLayout;
     QStackedWidget* parentWidget;
