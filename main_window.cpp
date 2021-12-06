@@ -40,7 +40,14 @@ void MainWindow::changeLayout(){
 MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
     // the widget that will show the video
     QVideoWidget *videoWidget = new QVideoWidget;
-
+    QWidget *videoWithBut = new QWidget();
+    QGridLayout *buttonOverlap = new QGridLayout();
+    QPushButton *backButton = new QPushButton();
+    backButton->setMaximumWidth(50);
+    backButton->setMaximumHeight(50);
+    buttonOverlap->addWidget(videoWidget, 0 , 0 );
+    buttonOverlap->addWidget(backButton, 0 , 0, Qt::AlignLeft | Qt::AlignTop);
+    videoWithBut->setLayout(buttonOverlap);
     // the QMediaPlayer which controls the playback
     ThePlayer *player = new ThePlayer;
     player->setVideoOutput(videoWidget);
@@ -167,7 +174,7 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
     initialWindowLayout = new QHBoxLayout();
     mainWindowLayout = new QHBoxLayout();
     QVBoxLayout *vidControlsLayout = new QVBoxLayout();
-    vidControlsLayout ->addWidget(videoWidget);
+    vidControlsLayout ->addWidget(videoWithBut);
     vidControlsLayout ->addLayout(controlsLayout);
     //window.setLayout(top);
     //setLayout(initialWindowLayout);
