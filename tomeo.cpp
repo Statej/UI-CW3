@@ -45,7 +45,7 @@ std::vector<TheButtonInfo> getInfoIn (std::string loc) {
 
         QString f = it.next();
 
-            if (f.contains("."))
+        if (f.contains("."))
 
 #if defined(_WIN32)
             if (f.contains(".wmv"))  { // windows
@@ -53,9 +53,9 @@ std::vector<TheButtonInfo> getInfoIn (std::string loc) {
             if (f.contains(".mp4") || f.contains("MOV"))  { // mac/linux
 #endif
 
-            QString thumb = f.left( f .length() - 4) +".png";
-            if (QFile(thumb).exists()) { // if a png thumbnail exists
-                QImageReader *imageReader = new QImageReader(thumb);
+                QString thumb = f.left( f .length() - 4) +".png";
+                if (QFile(thumb).exists()) { // if a png thumbnail exists
+                    QImageReader *imageReader = new QImageReader(thumb);
                     QImage sprite = imageReader->read(); // read the thumbnail
                     if (!sprite.isNull()) {
                         QIcon* ico = new QIcon(QPixmap::fromImage(sprite)); // voodoo to create an icon for the button
@@ -64,10 +64,10 @@ std::vector<TheButtonInfo> getInfoIn (std::string loc) {
                     }
                     else
                         qDebug() << "warning: skipping video because I couldn't process thumbnail " << thumb << endl;
+                }
+                else
+                    qDebug() << "warning: skipping video because I couldn't find thumbnail " << thumb << endl;
             }
-            else
-                qDebug() << "warning: skipping video because I couldn't find thumbnail " << thumb << endl;
-        }
     }
 
     return out;
@@ -106,125 +106,22 @@ int main(int argc, char *argv[]) {
         switch( result )
         {
         case QMessageBox::Yes:
-          QDesktopServices::openUrl(QUrl("https://leeds365-my.sharepoint.com/:u:/g/personal/scstke_leeds_ac_uk/EcGntcL-K3JOiaZF4T_uaA4BHn6USbq2E55kF_BTfdpPag?e=n1qfuN"));
-          break;
+            QDesktopServices::openUrl(QUrl("https://leeds365-my.sharepoint.com/:u:/g/personal/scstke_leeds_ac_uk/EcGntcL-K3JOiaZF4T_uaA4BHn6USbq2E55kF_BTfdpPag?e=n1qfuN"));
+            break;
         default:
             break;
         }
         exit(-1);
     }
 
-    // the widget that will show the video
-    QVideoWidget *videoWidget = new QVideoWidget;
-
-    // the QMediaPlayer which controls the playback
-    ThePlayer *player = new ThePlayer;
-    player->setVideoOutput(videoWidget);
-    // a row of buttons
-    QWidget *buttonWidget = new QWidget();
-    // a list of the buttons
-    std::vector<TheButton*> buttons;
-    // the buttons are arranged horizontally
-    QVBoxLayout *layout = new QVBoxLayout();
-    buttonWidget->setLayout(layout);
-
-
-    // create the four buttons
-
-    for ( int i = 0; i < (int)videos.size(); i++ ) {
-        TheButton *button = new TheButton(buttonWidget);
-        QWidget *widget = new QWidget();
-        QGridLayout *buttonOverlap = new QGridLayout();
-        QLabel *durationLabel = new QLabel();
-        durationLabel->setText("DURATION");
-        button->connect(button, SIGNAL(jumpTo(TheButtonInfo* )), player, SLOT (jumpTo(TheButtonInfo*))); // when clicked, tell the player to play.
-        buttons.push_back(button);
-        button->setMinimumWidth(150);
-        button->setMinimumHeight(150);
-        button->setMaximumWidth(150);
-        button->setMaximumHeight(150);
-        buttonOverlap->addWidget(button, 0 , 0 , Qt::AlignLeft);
-        buttonOverlap->addWidget(durationLabel, 0 , 0 , Qt::AlignCenter);
-        widget->setLayout(buttonOverlap);
-        layout->addWidget(widget);
-        button->init(&videos.at(i));
-
-    }
-
-    // tell the player what buttons and videos are available
-    player->setContent(&buttons, & videos);
-    // setup controls panel
-    QHBoxLayout* controlsLayout = new QHBoxLayout();
-    QHBoxLayout* volumeControlsLayout = new QHBoxLayout();
-    QWidget* volumeControlsWidget = new QWidget();
-    ProgressSlider* videoProgress = new ProgressSlider();
-    QPushButton* playButton = new QPushButton();
-    playButton = new PlayPause();
-    playButton->setIcon(QIcon(":/volume_off.png"));
-    VolumeButton* volumeButton = new VolumeButton();
-    VolumeSlider* volumeSlider = new VolumeSlider();
-    controlsLayout->addWidget(playButton);
-    controlsLayout->addWidget(videoProgress);
-    controlsLayout->addWidget(volumeControlsWidget);
-    volumeControlsLayout->addWidget(volumeButton);
-    volumeControlsLayout->addWidget(volumeSlider);
-    volumeControlsWidget->setLayout(volumeControlsLayout);
-    volumeControlsWidget->setMaximumWidth(250);
-
-    // VIDEO PROGRESS SLIDER
-    videoProgress->setRange(0, player->duration.toInt());
-    //videoProgress->setTickPosition(QSlider::TicksBelow);
-    videoProgress->setTickInterval(1);
-    videoProgress->setPageStep(1);
-    videoProgress->connect(videoProgress, SIGNAL(updatePosition(int)), player, SLOT (updatePosition(int)));
-    videoProgress->connect(videoProgress, SIGNAL(sendSliderPressed()), player, SLOT(receiveSliderPressed()));
-    player->connect(player, SIGNAL(updateDuration(int)), videoProgress, SLOT(assignDuration(int)));
-    player->connect(player, SIGNAL(sendVideoPosition(int)), videoProgress, SLOT(receivePosition(int)));
-    player->connect(player, SIGNAL(sendPlayState(QMediaPlayer::State)), playButton, SLOT(receivePlayState(QMediaPlayer::State)));
-    volumeSlider->connect(volumeSlider, SIGNAL(sendVolumeValue(int)), player, SLOT(receiveVolumeVal(int)));
-    // PLAY PAUSE BUTTON
-    playButton->setIcon(QIcon(":/pause.png"));
-    playButton->connect(playButton, SIGNAL(sendButtonPressed(bool)), player, SLOT(receivePlayButtonPressed(bool)));
-
-    // VOLUME BUTTON
-    volumeButton->setIcon(QIcon(":/volume_on"));
-    volumeButton->connect(volumeButton, SIGNAL(sendButtonPressed()), player, SLOT(receiveVolumeButtonPressed()));
-    // VOLUME SLIDER
-    volumeSlider->setRange(0,100);
-    volumeSlider->setSliderPosition(100);
-
-
-
-    // create the main window and layout
-    QWidget window;
-    QHBoxLayout *top = new QHBoxLayout();
-    QVBoxLayout *vidControlsLayout = new QVBoxLayout();
-    vidControlsLayout ->addWidget(videoWidget);
-    vidControlsLayout ->addLayout(controlsLayout);
-    window.setLayout(top);
-    window.setWindowTitle("tomeo");
-    window.setMinimumSize(800, 680);
-
-    // add the video and the buttons to the top level widget
-
-    //top->addWidget(buttonWidget);
-    QScrollArea* scrollArea = new QScrollArea();
-    scrollArea->setMinimumHeight(200);
-    QVBoxLayout *scrollLayout = new QVBoxLayout();
-    scrollArea->setMinimumWidth(200);
-    scrollLayout->addWidget(scrollArea);
-
-    scrollArea->setWidgetResizable(true);
-    scrollArea->setWidget(buttonWidget);
-                top->addLayout(vidControlsLayout);
-        top->addLayout(scrollLayout);
+   MainWindow *window = new MainWindow(videos);
 
     //scrollArea->setGeometry(-1,-1,0,0);
 
-   // qDebug() << player->metaData("Duration");
+    // qDebug() << player->metaData("Duration");
     //qDebug() << videoWidget->mediaObject()->metaData("Duration") << " found \n";
     // showtime!
-    window.show();
+    window->show();
 
     // wait for the app to terminate
     return app.exec();
