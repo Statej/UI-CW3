@@ -198,7 +198,7 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
     scrollArea2->setWidgetResizable(true);
     scrollArea2->setWidget(buttonGridWidget);
 
-
+    initialWindowLayout->addLayout(filterOptionsLayout);
     initialWindowLayout->addLayout(scrollLayout2);
 
     parentWidget = new QStackedWidget();
