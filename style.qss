@@ -10,6 +10,9 @@ border-color: rgb(66, 69, 183);
  padding:5px;
 
 }
+QLabel{
+
+}
 PlayPause{
     background-color: rgb(235,97,0);
     border-style: outset;

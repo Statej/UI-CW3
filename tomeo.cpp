@@ -31,7 +31,9 @@
 #include "volume_slider.h"
 #include <QSlider>
 #include <QDebug>
+#include <QLabel>
 #include <QScrollArea>
+#include "main_window.h"
 // read in videos and thumbnails to this directory
 std::vector<TheButtonInfo> getInfoIn (std::string loc) {
 
@@ -118,39 +120,47 @@ int main(int argc, char *argv[]) {
     // the QMediaPlayer which controls the playback
     ThePlayer *player = new ThePlayer;
     player->setVideoOutput(videoWidget);
-
     // a row of buttons
     QWidget *buttonWidget = new QWidget();
     // a list of the buttons
     std::vector<TheButton*> buttons;
     // the buttons are arranged horizontally
-    QHBoxLayout *layout = new QHBoxLayout();
+    QVBoxLayout *layout = new QVBoxLayout();
     buttonWidget->setLayout(layout);
 
 
     // create the four buttons
+
     for ( int i = 0; i < (int)videos.size(); i++ ) {
         TheButton *button = new TheButton(buttonWidget);
+        QWidget *widget = new QWidget();
+        QGridLayout *buttonOverlap = new QGridLayout();
+        QLabel *durationLabel = new QLabel();
+        durationLabel->setText("DURATION");
         button->connect(button, SIGNAL(jumpTo(TheButtonInfo* )), player, SLOT (jumpTo(TheButtonInfo*))); // when clicked, tell the player to play.
         buttons.push_back(button);
         button->setMinimumWidth(150);
         button->setMinimumHeight(150);
         button->setMaximumWidth(150);
         button->setMaximumHeight(150);
-        layout->addWidget(button);
+        buttonOverlap->addWidget(button, 0 , 0 , Qt::AlignLeft);
+        buttonOverlap->addWidget(durationLabel, 0 , 0 , Qt::AlignCenter);
+        widget->setLayout(buttonOverlap);
+        layout->addWidget(widget);
         button->init(&videos.at(i));
 
     }
 
     // tell the player what buttons and videos are available
     player->setContent(&buttons, & videos);
-
     // setup controls panel
     QHBoxLayout* controlsLayout = new QHBoxLayout();
     QHBoxLayout* volumeControlsLayout = new QHBoxLayout();
     QWidget* volumeControlsWidget = new QWidget();
     ProgressSlider* videoProgress = new ProgressSlider();
-    PlayPause* playButton = new PlayPause();
+    QPushButton* playButton = new QPushButton();
+    playButton = new PlayPause();
+    playButton->setIcon(QIcon(":/volume_off.png"));
     VolumeButton* volumeButton = new VolumeButton();
     VolumeSlider* volumeSlider = new VolumeSlider();
     controlsLayout->addWidget(playButton);
@@ -187,20 +197,28 @@ int main(int argc, char *argv[]) {
 
     // create the main window and layout
     QWidget window;
-    QVBoxLayout *top = new QVBoxLayout();
+    QHBoxLayout *top = new QHBoxLayout();
+    QVBoxLayout *vidControlsLayout = new QVBoxLayout();
+    vidControlsLayout ->addWidget(videoWidget);
+    vidControlsLayout ->addLayout(controlsLayout);
     window.setLayout(top);
     window.setWindowTitle("tomeo");
     window.setMinimumSize(800, 680);
 
     // add the video and the buttons to the top level widget
-    top->addWidget(videoWidget);
-    top->addLayout(controlsLayout);
+
     //top->addWidget(buttonWidget);
     QScrollArea* scrollArea = new QScrollArea();
     scrollArea->setMinimumHeight(200);
-    top->addWidget(scrollArea);
+    QVBoxLayout *scrollLayout = new QVBoxLayout();
+    scrollArea->setMinimumWidth(200);
+    scrollLayout->addWidget(scrollArea);
+
     scrollArea->setWidgetResizable(true);
     scrollArea->setWidget(buttonWidget);
+                top->addLayout(vidControlsLayout);
+        top->addLayout(scrollLayout);
+
     //scrollArea->setGeometry(-1,-1,0,0);
 
    // qDebug() << player->metaData("Duration");
