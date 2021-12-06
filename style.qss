@@ -1,8 +1,9 @@
 QWidget{
  background-color: #2e2e2e;
 }
+
 TheButton{
-border-color: rgb(66, 69, 183);
+border-color:  #2e2e2e;
  border-width: 3px;
  border-style: solid;
  border-radius: 40px;
@@ -11,7 +12,12 @@ border-color: rgb(66, 69, 183);
 
 }
 QLabel{
-
+font-size: 25px;
+    color: #c9c86d;
+}
+QRadioButton{
+font-size: 15px;
+color: #c9c86d;
 }
 PlayPause{
     background-color: rgb(235,97,0);

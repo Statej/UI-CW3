@@ -7,7 +7,7 @@
 class MainWindow : public QWidget
 {
 public:
-    MainWindow(std::vector<TheButtonInfo> videos);
+    MainWindow(std::vector<TheButtonInfo> &videos);
 
 };
 

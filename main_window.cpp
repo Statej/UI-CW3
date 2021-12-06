@@ -24,9 +24,11 @@
 #include <QLabel>
 #include <QScrollArea>
 #include "main_window.h"
+#include "QRadioButton"
 
 
-MainWindow::MainWindow(std::vector<TheButtonInfo> videos){
+
+MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
     // the widget that will show the video
     QVideoWidget *videoWidget = new QVideoWidget;
 
@@ -38,7 +40,7 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> videos){
     // a list of the buttons
     std::vector<TheButton*> buttons;
     // the buttons are arranged horizontally
-    QHBoxLayout *layout = new QHBoxLayout();
+    QVBoxLayout *layout = new QVBoxLayout();
     buttonWidget->setLayout(layout);
 
 
@@ -98,6 +100,20 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> videos){
     // tell the player what buttons and videos are available
     player->setContent(&buttons, & videos);
     // setup controls panel
+    QVBoxLayout* filterOptionsLayout = new QVBoxLayout();
+    QLabel *filterHeading = new QLabel();
+    filterHeading->setText("Filter videos by:");
+    QRadioButton *filterOption1 = new QRadioButton();
+    QRadioButton *filterOption2 = new QRadioButton();
+    QRadioButton *filterOption3 = new QRadioButton();
+    filterOption1->setText("Filter by name");
+    filterOption2->setText("Filter by date recorded");
+    filterOption3->setText("Filter by duration");
+    filterOptionsLayout->addWidget(filterHeading);
+    filterOptionsLayout->addWidget(filterOption1);
+    filterOptionsLayout->addWidget(filterOption2);
+    filterOptionsLayout->addWidget(filterOption3);
+    filterOptionsLayout->addStretch(1);
     QHBoxLayout* controlsLayout = new QHBoxLayout();
     QHBoxLayout* volumeControlsLayout = new QHBoxLayout();
     QWidget* volumeControlsWidget = new QWidget();
@@ -173,7 +189,7 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> videos){
 
     scrollArea2->setWidgetResizable(true);
     scrollArea2->setWidget(buttonGridWidget);
-
+    newTestLayout->addLayout(filterOptionsLayout);
     newTestLayout->addLayout(scrollLayout2);
 }
 
