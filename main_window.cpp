@@ -26,6 +26,15 @@
 #include "main_window.h"
 #include "QRadioButton"
 
+void MainWindow::changeLayout(){
+    qDebug() << "Here";
+
+
+    parentWidget->widget(1)->hide();
+    parentWidget->widget(0)->show();
+    //setLayout(mainWindowLayout);
+
+}
 
 
 MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
@@ -81,6 +90,7 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
             QLabel *durationLabel = new QLabel();
             durationLabel->setText("DURATION");
             button->connect(button, SIGNAL(jumpTo(TheButtonInfo* )), player, SLOT (jumpTo(TheButtonInfo*))); // when clicked, tell the player to play.
+            button->connect(button, SIGNAL(released()), this, SLOT(changeLayout()));
             buttonsInGrid.push_back(button);
             /*
             button->setMinimumWidth(150);
@@ -153,16 +163,14 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
     volumeSlider->setRange(0,100);
     volumeSlider->setSliderPosition(100);
 
-
-
     // create the main window and lay
-    QHBoxLayout *newTestLayout = new QHBoxLayout();
-    QHBoxLayout *top = new QHBoxLayout();
+    initialWindowLayout = new QHBoxLayout();
+    mainWindowLayout = new QHBoxLayout();
     QVBoxLayout *vidControlsLayout = new QVBoxLayout();
     vidControlsLayout ->addWidget(videoWidget);
     vidControlsLayout ->addLayout(controlsLayout);
     //window.setLayout(top);
-    setLayout(newTestLayout);
+    //setLayout(initialWindowLayout);
     setWindowTitle("tomeo");
     setMinimumSize(800, 680);
 
@@ -177,8 +185,8 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
 
     scrollArea->setWidgetResizable(true);
     scrollArea->setWidget(buttonWidget);
-    top->addLayout(vidControlsLayout);
-    top->addLayout(scrollLayout);
+    mainWindowLayout->addLayout(vidControlsLayout);
+    mainWindowLayout->addLayout(scrollLayout);
 
 
     QScrollArea* scrollArea2 = new QScrollArea();
@@ -189,7 +197,28 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
 
     scrollArea2->setWidgetResizable(true);
     scrollArea2->setWidget(buttonGridWidget);
-    newTestLayout->addLayout(filterOptionsLayout);
-    newTestLayout->addLayout(scrollLayout2);
+
+
+    initialWindowLayout->addLayout(scrollLayout2);
+
+    parentWidget = new QStackedWidget();
+    QWidget* initialWindow = new QWidget();
+    QWidget* mainWindow = new QWidget();
+
+    initialWindow->setMinimumSize(1670, 900);
+    initialWindow->setLayout(initialWindowLayout);
+    mainWindow->setLayout(mainWindowLayout);
+
+    parentWidget->addWidget(mainWindow);
+    parentWidget->addWidget(initialWindow);
+
+    QVBoxLayout *parentLayout = new QVBoxLayout();
+    parentLayout->addWidget(parentWidget);
+    setLayout(parentLayout);
+
+    parentWidget->widget(0)->hide();
+    parentWidget->widget(1)->show();
+    //    widget(2)->show();
+
 }
 

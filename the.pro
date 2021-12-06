@@ -8,6 +8,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        main_window.cpp \
         play_pause.cpp \
         progress_slider.cpp \
         the_button.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
         volume_slider.cpp
 
 HEADERS += \
+    main_window.h \
     play_pause.h \
     progress_slider.h \
     the_button.h \
