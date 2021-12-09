@@ -26,7 +26,7 @@
 #include "main_window.h"
 #include "QRadioButton"
 #include <QLineEdit>
-#include "home_button.h"
+#include "the_button2.h"
 
 void MainWindow::changeLayout(){
     if(showingMainWindow){
@@ -82,7 +82,6 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
         button->setMinimumHeight(150);
         button->setMaximumWidth(150);
         button->setMaximumHeight(150);
-        button->setIconSize(QSize(150, 150));
         buttonOverlap->addWidget(button, 0 , 0 , Qt::AlignLeft);
         //buttonOverlap->addWidget(durationLabel, 0 , 0 , Qt::AlignCenter);
         widget->setLayout(buttonOverlap);
@@ -168,7 +167,8 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
     QLabel *findFriendsLabel = new QLabel();
     findFriendsLabel->setText("Find friends:");
     QLineEdit *friendSearch = new QLineEdit();
-    friendSearch->setMaximumWidth(180);
+    friendSearch->setMaximumWidth(230);
+
     friendSearch->setMaxLength(50);
     filterOptionsLayout->addWidget(findFriendsLabel);
     filterOptionsLayout->addWidget(friendSearch);
@@ -205,7 +205,7 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
     // PLAY PAUSE BUTTON
     playButton->setIcon(QIcon(":/pause.png"));
     playButton->connect(playButton, SIGNAL(sendButtonPressed(bool)), player, SLOT(receivePlayButtonPressed()));
-    backButton->connect(backButton, SIGNAL(released()), player, SLOT(receivePlayButtonPressed()));
+    backButton->connect(backButton, SIGNAL(released()), player, SLOT(receiveBackButtonPressed()));
 
     // VOLUME BUTTON
     volumeButton->setIcon(QIcon(":/volume_on"));
@@ -231,7 +231,7 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
     QScrollArea* scrollArea = new QScrollArea();
     scrollArea->setMinimumHeight(200);
     QVBoxLayout *scrollLayout = new QVBoxLayout();
-    scrollArea->setMinimumWidth(200);
+    scrollArea->setMinimumWidth(220);
     scrollLayout->addWidget(scrollArea);
 
     scrollArea->setWidgetResizable(true);
