@@ -26,7 +26,7 @@
 #include "main_window.h"
 #include "QRadioButton"
 #include <QLineEdit>
-#include "the_button2.h"
+#include "friend_button.h"
 
 void MainWindow::changeLayout(){
     if(showingMainWindow){
@@ -68,7 +68,53 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
     QVBoxLayout *layout = new QVBoxLayout();
     buttonWidget->setLayout(layout);
 
+    QVBoxLayout* filterOptionsLayout = new QVBoxLayout();
+    QLabel *filterHeading = new QLabel();
+    filterHeading->setText("Filter videos by:");
+    QRadioButton *filterOption1 = new QRadioButton();
+    QRadioButton *filterOption2 = new QRadioButton();
+    QRadioButton *filterOption3 = new QRadioButton();
+    filterOption1->setText("Filter by name");
+    filterOption2->setText("Filter by date recorded");
+    filterOption3->setText("Filter by duration");
+    filterOptionsLayout->addWidget(filterHeading);
+    filterOptionsLayout->addWidget(filterOption1);
+    filterOptionsLayout->addWidget(filterOption2);
+    filterOptionsLayout->addWidget(filterOption3);
 
+    filterOptionsLayout->addSpacing(10);
+    QLabel *friendHeading = new QLabel();
+    friendHeading->setText("Friend list:");
+    filterOptionsLayout->addWidget(friendHeading);
+    FriendButton *friendButton1 = new FriendButton();
+    friendButton1->setText("Friend 1");
+    FriendButton *friendButton2 = new FriendButton();
+    friendButton2->setText("Friend 2");
+    FriendButton *friendButton3 = new FriendButton();
+    friendButton3->setText("Friend 3");
+    FriendButton *friendButton4 = new FriendButton();
+    friendButton4->setText("Friend 4");
+    FriendButton *friendButton5 = new FriendButton();
+    friendButton5->setText("Friend 5");
+    FriendButton *friendButton6 = new FriendButton();
+    friendButton6->setText("Friend 6");
+    filterOptionsLayout->addWidget(friendButton1);
+    filterOptionsLayout->addWidget(friendButton2);
+    filterOptionsLayout->addWidget(friendButton3);
+    filterOptionsLayout->addWidget(friendButton4);
+    filterOptionsLayout->addWidget(friendButton5);
+    filterOptionsLayout->addWidget(friendButton6);
+    filterOptionsLayout->addSpacing(10);
+    QHBoxLayout* searchFriendsLayout = new QHBoxLayout();
+    QLabel *findFriendsLabel = new QLabel();
+    findFriendsLabel->setText("Find friends:");
+    QLineEdit *friendSearch = new QLineEdit();
+    friendSearch->setMaximumWidth(180);
+    friendSearch->setMaxLength(50);
+    filterOptionsLayout->addWidget(findFriendsLabel);
+    filterOptionsLayout->addWidget(friendSearch);
+    searchFriendsLayout->addStretch(1);
+    filterOptionsLayout->addStretch(1);
 
     for ( int i = 0; i < (int)videos.size(); i++ ) {
         TheButton *button = new TheButton(buttonWidget);
@@ -107,6 +153,7 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
            // durationLabel->setText("DURATION");
             button->connect(button, SIGNAL(jumpTo(TheButtonInfo* )), player, SLOT (jumpTo(TheButtonInfo*))); // when clicked, tell the player to play.
             button->connect(button, SIGNAL(released()), this, SLOT(changeLayout()));
+            friendButton1->connect(friendButton1, SIGNAL(sendFriendButtonPressed()), button, SLOT(friendClicked()));
             buttonsInGrid.push_back(button);
             /*
             button->setMinimumWidth(150);
@@ -126,54 +173,7 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
     // tell the player what buttons and videos are available
     player->setContent(&buttons, & videos);
     // setup controls panel
-    QVBoxLayout* filterOptionsLayout = new QVBoxLayout();
-    QLabel *filterHeading = new QLabel();
-    filterHeading->setText("Filter videos by:");
-    QRadioButton *filterOption1 = new QRadioButton();
-    QRadioButton *filterOption2 = new QRadioButton();
-    QRadioButton *filterOption3 = new QRadioButton();
-    filterOption1->setText("Filter by name");
-    filterOption2->setText("Filter by date recorded");
-    filterOption3->setText("Filter by duration");
-    filterOptionsLayout->addWidget(filterHeading);
-    filterOptionsLayout->addWidget(filterOption1);
-    filterOptionsLayout->addWidget(filterOption2);
-    filterOptionsLayout->addWidget(filterOption3);
 
-    filterOptionsLayout->addSpacing(10);
-    QLabel *friendHeading = new QLabel();
-    friendHeading->setText("Friend list:");
-    filterOptionsLayout->addWidget(friendHeading);
-    QPushButton *friendButton1 = new QPushButton();
-    friendButton1->setText("Friend 1");
-    QPushButton *friendButton2 = new QPushButton();
-    friendButton2->setText("Friend 2");
-    QPushButton *friendButton3 = new QPushButton();
-    friendButton3->setText("Friend 3");
-    QPushButton *friendButton4 = new QPushButton();
-    friendButton4->setText("Friend 4");
-    QPushButton *friendButton5 = new QPushButton();
-    friendButton5->setText("Friend 5");
-    QPushButton *friendButton6 = new QPushButton();
-    friendButton6->setText("Friend 6");
-    filterOptionsLayout->addWidget(friendButton1);
-    filterOptionsLayout->addWidget(friendButton2);
-    filterOptionsLayout->addWidget(friendButton3);
-    filterOptionsLayout->addWidget(friendButton4);
-    filterOptionsLayout->addWidget(friendButton5);
-    filterOptionsLayout->addWidget(friendButton6);
-    filterOptionsLayout->addSpacing(10);
-    QHBoxLayout* searchFriendsLayout = new QHBoxLayout();
-    QLabel *findFriendsLabel = new QLabel();
-    findFriendsLabel->setText("Find friends:");
-    QLineEdit *friendSearch = new QLineEdit();
-    friendSearch->setMaximumWidth(230);
-
-    friendSearch->setMaxLength(50);
-    filterOptionsLayout->addWidget(findFriendsLabel);
-    filterOptionsLayout->addWidget(friendSearch);
-    searchFriendsLayout->addStretch(1);
-    filterOptionsLayout->addStretch(1);
     QHBoxLayout* controlsLayout = new QHBoxLayout();
     QHBoxLayout* volumeControlsLayout = new QHBoxLayout();
     QWidget* volumeControlsWidget = new QWidget();

@@ -22,6 +22,7 @@ class TheButton : public QPushButton {
 
 public:
     TheButtonInfo* info;
+    std::vector<TheButtonInfo> getInfoIn (std::string loc);
 
      TheButton(QWidget *parent) :  QPushButton(parent) {
          setIconSize(QSize(300,300));
@@ -33,6 +34,9 @@ public:
 
 private slots:
     void clicked();
+
+public slots:
+    void friendClicked();
 
 signals:
     void jumpTo(TheButtonInfo*);

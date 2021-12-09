@@ -6,5 +6,6 @@
         <file>volume_off.png</file>
         <file>style.qss</file>
         <file>home-button.png</file>
+        <file>friend-modified.png</file>
     </qresource>
 </RCC>
