@@ -21,20 +21,22 @@ border-color:  #2e2e2e;
  padding:5px;
 
 }
-
+QLineEdit{
+color: white;
+}
 
 
 QLabel{
 font-size: 25px;
-    color: #c9c86d;
+    color: rgb(235,97,0);
 }
 QPushButton{
 font-size: 25px;
-    color: #c9c86d;
+    color: rgb(235,97,0);
 }
 QRadioButton{
-font-size: 15px;
-color: #c9c86d;
+font-size: 20px;
+color: rgb(235,97,0);
 }
 PlayPause{
     background-color: rgb(235,97,0);

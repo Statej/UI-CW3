@@ -96,7 +96,9 @@ void ThePlayer::receivePlayButtonPressed(){
         pause();
     }
 }
-
+void ThePlayer::receiveBackButtonPressed(){
+   pause();
+}
 void ThePlayer:: receiveVolumeVal(int volume){
     //float convertedVolume = log(volume)/log(100);
     //    qDebug() <<"OVKUME"<< convertedVolume * 100;

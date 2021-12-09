@@ -66,6 +66,7 @@ public slots:
 
     void receiveSliderPressed();
     void receivePlayButtonPressed();
+    void receiveBackButtonPressed();
     void receiveVolumeButtonPressed();
     void receiveVolumeVal(int);
 signals:
