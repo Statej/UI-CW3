@@ -13,7 +13,6 @@ void PlayPause::buttonPressed(){
 }
 
 void PlayPause::receivePlayState(QMediaPlayer::State state){
-    qDebug() << "state " <<state;
     if(state == QMediaPlayer::PausedState){
         setIcon(QIcon(":/play.png"));
 

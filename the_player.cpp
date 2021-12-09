@@ -23,7 +23,6 @@ void ThePlayer::shuffle() {
 }
 
 void ThePlayer::playStateChanged (QMediaPlayer::State ms) {
-    qDebug() << ms;
     switch (ms) {
     case QMediaPlayer::State::StoppedState:
         play(); // starting playing again...
@@ -45,7 +44,6 @@ void ThePlayer::newDuration(){
     if(duration.toInt() != 0){
         emit updateDuration(duration.toInt());
     }
-    //qDebug() << "duration: " << duration;
 }
 
 void ThePlayer::changedPosition(){
@@ -58,7 +56,6 @@ void ThePlayer::changedPosition(){
 void ThePlayer::jumpTo (TheButtonInfo* button) {
     setMedia( * button -> url);
     //    QVariant duration = metaData("Duration");
-    //    qDebug() << duration;
     if(initialising){
         initialising = false;
     }
@@ -101,6 +98,5 @@ void ThePlayer::receiveBackButtonPressed(){
 }
 void ThePlayer:: receiveVolumeVal(int volume){
     //float convertedVolume = log(volume)/log(100);
-    //    qDebug() <<"OVKUME"<< convertedVolume * 100;
     setVolume(volume);
 }

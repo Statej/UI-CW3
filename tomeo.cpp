@@ -116,10 +116,6 @@ int main(int argc, char *argv[]) {
 
    MainWindow *window = new MainWindow(videos);
 
-    //scrollArea->setGeometry(-1,-1,0,0);
-
-    // qDebug() << player->metaData("Duration");
-    //qDebug() << videoWidget->mediaObject()->metaData("Duration") << " found \n";
     // showtime!
     window->show();
 

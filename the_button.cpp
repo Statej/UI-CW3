@@ -20,13 +20,11 @@ void TheButton::clicked() {
 }
 
 std::vector<TheButtonInfo> TheButton::getInfoIn (std::string loc) {
-    qDebug() << QString::fromStdString(loc);
     std::vector<TheButtonInfo> out =  std::vector<TheButtonInfo>();
     QDir dir(QString::fromStdString(loc) );
     QDirIterator it(dir);
 
     while (it.hasNext()) { // for all files
-        qDebug() << "File";
         QString f = it.next();
 
         if (f.contains("."))
