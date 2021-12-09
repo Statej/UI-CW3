@@ -25,6 +25,8 @@
 #include <QScrollArea>
 #include "main_window.h"
 #include "QRadioButton"
+#include <QLineEdit>
+#include "home_button.h"
 
 void MainWindow::changeLayout(){
     if(showingMainWindow){
@@ -45,10 +47,13 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
     QVideoWidget *videoWidget = new QVideoWidget;
     QWidget *videoWithBut = new QWidget();
     QGridLayout *buttonOverlap = new QGridLayout();
-    QPushButton *backButton = new QPushButton();
-    backButton->setMaximumWidth(50);
-    backButton->setMaximumHeight(50);
+    PlayPause *backButton = new PlayPause();
+    backButton->setMinimumWidth(40);
+    backButton->setMinimumHeight(40);
+    backButton->setIcon(QIcon(":/home-button.png"));
+    backButton->setIconSize(QSize(40,40));
     backButton->connect(backButton, SIGNAL(released()), this, SLOT(changeLayout()));
+
     buttonOverlap->addWidget(videoWidget, 0 , 0 );
     buttonOverlap->addWidget(backButton, 0 , 0, Qt::AlignLeft | Qt::AlignTop);
     videoWithBut->setLayout(buttonOverlap);
@@ -69,16 +74,17 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
         TheButton *button = new TheButton(buttonWidget);
         QWidget *widget = new QWidget();
         QGridLayout *buttonOverlap = new QGridLayout();
-        QLabel *durationLabel = new QLabel();
-        durationLabel->setText("DURATION");
+       // QLabel *durationLabel = new QLabel();
+        //durationLabel->setText("DURATION");
         button->connect(button, SIGNAL(jumpTo(TheButtonInfo* )), player, SLOT (jumpTo(TheButtonInfo*))); // when clicked, tell the player to play.
         buttons.push_back(button);
         button->setMinimumWidth(150);
         button->setMinimumHeight(150);
         button->setMaximumWidth(150);
         button->setMaximumHeight(150);
+        button->setIconSize(QSize(150, 150));
         buttonOverlap->addWidget(button, 0 , 0 , Qt::AlignLeft);
-        buttonOverlap->addWidget(durationLabel, 0 , 0 , Qt::AlignCenter);
+        //buttonOverlap->addWidget(durationLabel, 0 , 0 , Qt::AlignCenter);
         widget->setLayout(buttonOverlap);
         layout->addWidget(widget);
         button->init(&videos.at(i));
@@ -93,13 +99,13 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
 
 
 
-    for ( int i = 0; i < (int)videos.size()/4; i++ ) {
-        for (int j = 0; j < 4; j++){
+    for ( int i = 0; i < (int)videos.size()/3; i++ ) {
+        for (int j = 0; j < 3; j++){
             TheButton *button = new TheButton(buttonGridWidget);
             QWidget *widget = new QWidget();
             QGridLayout *buttonOverlap = new QGridLayout();
-            QLabel *durationLabel = new QLabel();
-            durationLabel->setText("DURATION");
+           // QLabel *durationLabel = new QLabel();
+           // durationLabel->setText("DURATION");
             button->connect(button, SIGNAL(jumpTo(TheButtonInfo* )), player, SLOT (jumpTo(TheButtonInfo*))); // when clicked, tell the player to play.
             button->connect(button, SIGNAL(released()), this, SLOT(changeLayout()));
             buttonsInGrid.push_back(button);
@@ -110,10 +116,10 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
             button->setMaximumHeight(150);
             */
             buttonOverlap->addWidget(button, 0 , 0 , Qt::AlignCenter);
-            buttonOverlap->addWidget(durationLabel, 0 , 0 , Qt::AlignCenter);
+            //buttonOverlap->addWidget(durationLabel, 0 , 0 , Qt::AlignCenter);
             widget->setLayout(buttonOverlap);
             gridButtonLayout->addWidget(widget, i , j , 1 ,1);
-            button->init(&videos.at(i*4 + j));
+            button->init(&videos.at(i*3 + j));
 
         }
     }
@@ -134,6 +140,39 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
     filterOptionsLayout->addWidget(filterOption1);
     filterOptionsLayout->addWidget(filterOption2);
     filterOptionsLayout->addWidget(filterOption3);
+
+    filterOptionsLayout->addSpacing(10);
+    QLabel *friendHeading = new QLabel();
+    friendHeading->setText("Friend list:");
+    filterOptionsLayout->addWidget(friendHeading);
+    QPushButton *friendButton1 = new QPushButton();
+    friendButton1->setText("Friend 1");
+    QPushButton *friendButton2 = new QPushButton();
+    friendButton2->setText("Friend 2");
+    QPushButton *friendButton3 = new QPushButton();
+    friendButton3->setText("Friend 3");
+    QPushButton *friendButton4 = new QPushButton();
+    friendButton4->setText("Friend 4");
+    QPushButton *friendButton5 = new QPushButton();
+    friendButton5->setText("Friend 5");
+    QPushButton *friendButton6 = new QPushButton();
+    friendButton6->setText("Friend 6");
+    filterOptionsLayout->addWidget(friendButton1);
+    filterOptionsLayout->addWidget(friendButton2);
+    filterOptionsLayout->addWidget(friendButton3);
+    filterOptionsLayout->addWidget(friendButton4);
+    filterOptionsLayout->addWidget(friendButton5);
+    filterOptionsLayout->addWidget(friendButton6);
+    filterOptionsLayout->addSpacing(10);
+    QHBoxLayout* searchFriendsLayout = new QHBoxLayout();
+    QLabel *findFriendsLabel = new QLabel();
+    findFriendsLabel->setText("Find friends:");
+    QLineEdit *friendSearch = new QLineEdit();
+    friendSearch->setMaximumWidth(180);
+    friendSearch->setMaxLength(50);
+    filterOptionsLayout->addWidget(findFriendsLabel);
+    filterOptionsLayout->addWidget(friendSearch);
+    searchFriendsLayout->addStretch(1);
     filterOptionsLayout->addStretch(1);
     QHBoxLayout* controlsLayout = new QHBoxLayout();
     QHBoxLayout* volumeControlsLayout = new QHBoxLayout();
@@ -211,6 +250,7 @@ MainWindow::MainWindow(std::vector<TheButtonInfo> &videos){
     scrollArea2->setWidget(buttonGridWidget);
 
     initialWindowLayout->addLayout(filterOptionsLayout);
+         //initialWindowLayout->addLayout(searchFriendsLayout);
     initialWindowLayout->addLayout(scrollLayout2);
 
     parentWidget = new QStackedWidget();
